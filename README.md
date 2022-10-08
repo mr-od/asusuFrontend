@@ -6,7 +6,7 @@ This is the frontend of Asusu. A tribal app that can serve as a language, cultur
 
 Just clone and Run the pubsec to get packages. 
 
-- ![Home Screen](https://raw.github.com/mr-od/asusu_igbo_f/blob/main/UI_XD/images/Home.png?raw=true "Optional Title")
+- ![Home Screen](https://raw.github.com/mr-od/asusu_igbo_f/main/UI_XD/images/Home.png?raw=true "Optional Title")
 
 A few resources to get you started if this is your first Flutter project:
 
