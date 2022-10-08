@@ -40,12 +40,8 @@ class _LandingPageState extends State<LandingPage> {
               color: a4_style.navPane,
             ),
           ),
-          body: Column(
-            children: [
-              Center(
-                child: _pages.elementAt(selectedIndex), //New
-              ),
-            ],
+          body: Center(
+            child: _pages.elementAt(selectedIndex), //New
           ),
           bottomNavigationBar: CustomBottomNavigationBar(
             iconList: icons,
