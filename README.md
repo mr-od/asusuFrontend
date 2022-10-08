@@ -1,10 +1,12 @@
 # asusu_igbo_f
 
-A new Flutter project.
+This is the frontend of Asusu. A tribal app that can serve as a language, culture, events and products sharing for various tribes in the world. 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Just clone and Run the pubsec to get packages. 
+
+- [Home Page](https://github.com/mr-od/asusu_igbo_f/blob/main/UI_XD/images/Home.png)
 
 A few resources to get you started if this is your first Flutter project:
 
