@@ -6,7 +6,7 @@ This is the frontend of Asusu. A tribal app that can serve as a language, cultur
 
 Just clone and Run the pubsec to get packages. 
 
-- ![Home Screen](Home.png)
+- ![Home Screen](mr-od/asusu_igbo_f/UI_XD/images/Home.png)
 - ![Intro Screen](Intro_1.png)
 - ![Intro Screen](Intro_2.png)
 - ![Intro Screen](Intro_3.png)
