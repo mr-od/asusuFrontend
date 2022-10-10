@@ -8,6 +8,7 @@ import '../logic.dart';
 abstract class ProductRepository {
   // static String mainUrl = "http://10.0.2.2:8000"; // Android Studio
   static String mainUrl = "http://localhost:8080"; // iOS
+  // static String mainUrl = "http://10.0.2.2:8080";
   var promotedProducts = '$mainUrl/api/v1/products';
 
   final FlutterSecureStorage storage = const FlutterSecureStorage();
