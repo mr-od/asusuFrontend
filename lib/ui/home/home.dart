@@ -1,5 +1,6 @@
 import 'package:asusu_igbo_f/shared/components/shared_components.dart';
 import 'package:asusu_igbo_f/shared/styles/shared_colors.dart';
+import 'package:asusu_igbo_f/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -39,40 +40,25 @@ class _HomeState extends State<Home> {
         )
       ],
     );
-    // SingleChildScrollView(
-    //   child: Column(
-    //     children: [
-    //       searchFormField(label: "Search", prefix: "assets/icons/A4logo.png"),
-    //       // TODO: Use a carousel slider instead of a container.
-    //       Container(
-    //         height: 150,
-    //         width: 350,
-    //         decoration: const BoxDecoration(
-    //             color: lavenderBlush,
-    //             borderRadius: BorderRadius.all(Radius.circular(15))),
-    //       ),
-
-    //     ],
-    //   ),
-    // );
   }
 }
 
 class Choice {
-  const Choice({required this.title, required this.icon});
+  const Choice({
+    required this.title,
+    required this.icon,
+    // this.context,
+  });
   final String title;
   final IconData icon;
+  // final BuildContext? contextB;
 }
 
-const List<Choice> choices = <Choice>[
-  Choice(title: 'Home', icon: Icons.home),
-  Choice(title: 'Contact', icon: Icons.contacts),
-  Choice(title: 'Map', icon: Icons.map),
-  Choice(title: 'Phone', icon: Icons.phone),
-  Choice(title: 'Camera', icon: Icons.camera_alt),
-  Choice(title: 'Setting', icon: Icons.settings),
-  Choice(title: 'Album', icon: Icons.photo_album),
-  Choice(title: 'WiFi', icon: Icons.wifi),
+List<Choice> choices = <Choice>[
+  Choice(
+    title: 'Tinye Okwu',
+    icon: Icons.home,
+  ),
 ];
 
 class SelectCard extends StatelessWidget {
@@ -81,17 +67,21 @@ class SelectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-        color: pureBlack,
-        child: Center(
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                    child: Icon(choice.icon, size: 50.0, color: lavenderBlush)),
-                Text(choice.title,
-                    style: const TextStyle(color: lavenderBlush)),
-              ]),
-        ));
+    return GestureDetector(
+      onTap: choice.goWhere,
+      child: Card(
+          color: pureBlack,
+          child: Center(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                      child:
+                          Icon(choice.icon, size: 50.0, color: lavenderBlush)),
+                  Text(choice.title,
+                      style: const TextStyle(color: lavenderBlush)),
+                ]),
+          )),
+    );
   }
 }

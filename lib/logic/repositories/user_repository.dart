@@ -6,8 +6,8 @@ import '../../shared/services/secure_storage.dart';
 import '../logic.dart';
 
 abstract class UserRepository {
-  // static String mainUrl = "http://10.0.2.2:8000";
-  static String mainUrl = "http://10.0.2.2:8080";
+  // static String mainUrl = "http://10.0.2.2:8000"; // Android Studio
+  static String mainUrl = "http://localhost:8080"; // iOS
 
   var loginurl = '$mainUrl/api/v1/users/login';
   var registerUrl = '$mainUrl/api/v1/users/register';
