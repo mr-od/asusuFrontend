@@ -1,6 +1,8 @@
 import 'package:asusu_igbo_f/shared/components/shared_components.dart';
 import 'package:asusu_igbo_f/shared/styles/shared_colors.dart';
+import 'package:asusu_igbo_f/ui/ui.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,12 +14,24 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    final List<String> imgList = [
+      'http://afia4.oss-cn-beijing.aliyuncs.com/sliders/1.jpg',
+      'http://afia4.oss-cn-beijing.aliyuncs.com/sliders/2.jpg',
+    ];
     return CustomScrollView(
       slivers: <Widget>[
         SliverToBoxAdapter(
           child: searchFormField(
               label: "Search", prefix: "assets/icons/A4logo.png"),
         ),
+        SliverToBoxAdapter(
+            child: CarouselSlider(
+          options: CarouselOptions(),
+          items: imgList
+              .map((item) => Center(
+                  child: Image.network(item, fit: BoxFit.cover, width: 1000)))
+              .toList(),
+        )),
         SliverGrid(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -26,53 +40,81 @@ class _HomeState extends State<Home> {
               crossAxisSpacing: 10.0),
           delegate: SliverChildBuilderDelegate(
             (context, index) {
-              return Container(
-                color: amaranth,
-                child: SelectCard(choice: choices[index]),
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const PromotedProducts();
+                  }));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    // color: amaranth,
+                    child: SelectCard(choice: choices[index]),
+                  ),
+                ),
               );
             },
             childCount: choices.length,
           ),
         ),
-        SliverPadding(
-          padding: const EdgeInsets.only(bottom: 80.0),
+        const SliverPadding(
+          padding: EdgeInsets.only(bottom: 80.0),
         )
       ],
     );
-    // SingleChildScrollView(
-    //   child: Column(
-    //     children: [
-    //       searchFormField(label: "Search", prefix: "assets/icons/A4logo.png"),
-    //       // TODO: Use a carousel slider instead of a container.
-    //       Container(
-    //         height: 150,
-    //         width: 350,
-    //         decoration: const BoxDecoration(
-    //             color: lavenderBlush,
-    //             borderRadius: BorderRadius.all(Radius.circular(15))),
-    //       ),
-
-    //     ],
-    //   ),
-    // );
   }
 }
 
 class Choice {
   const Choice({required this.title, required this.icon});
   final String title;
-  final IconData icon;
+  final Widget icon;
 }
 
-const List<Choice> choices = <Choice>[
-  Choice(title: 'Home', icon: Icons.home),
-  Choice(title: 'Contact', icon: Icons.contacts),
-  Choice(title: 'Map', icon: Icons.map),
-  Choice(title: 'Phone', icon: Icons.phone),
-  Choice(title: 'Camera', icon: Icons.camera_alt),
-  Choice(title: 'Setting', icon: Icons.settings),
-  Choice(title: 'Album', icon: Icons.photo_album),
-  Choice(title: 'WiFi', icon: Icons.wifi),
+List<Choice> choices = <Choice>[
+  Choice(
+      title: 'New Word',
+      icon: Image.asset(
+        "assets/icons/insert_w.png",
+        height: 50,
+        width: 50,
+      )),
+  Choice(
+      title: 'Verify Word',
+      icon: Image.asset(
+        "assets/icons/verify_w.png",
+        height: 50,
+        width: 50,
+      )),
+  Choice(
+      title: 'Market',
+      icon: Image.asset(
+        "assets/icons/afia.png",
+        height: 50,
+        width: 50,
+      )),
+  Choice(
+      title: 'Festival',
+      icon: Image.asset(
+        "assets/icons/fireworks.png",
+        height: 50,
+        width: 50,
+      )),
+  Choice(
+      title: 'History',
+      icon: Image.asset(
+        "assets/icons/history.png",
+        height: 50,
+        width: 50,
+      )),
+  Choice(
+      title: 'Food',
+      icon: Image.asset(
+        "assets/icons/nri.png",
+        height: 50,
+        width: 50,
+      )),
 ];
 
 class SelectCard extends StatelessWidget {
@@ -82,16 +124,22 @@ class SelectCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(color: lavenderBlush, width: 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
         color: pureBlack,
-        child: Center(
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Expanded(
-                    child: Icon(choice.icon, size: 50.0, color: lavenderBlush)),
-                Text(choice.title,
-                    style: const TextStyle(color: lavenderBlush)),
-              ]),
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Center(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(child: choice.icon),
+                  Text(choice.title,
+                      style: const TextStyle(color: lavenderBlush)),
+                ]),
+          ),
         ));
   }
 }

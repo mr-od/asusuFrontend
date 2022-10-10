@@ -6,8 +6,8 @@ import '../../shared/services/secure_storage.dart';
 import '../logic.dart';
 
 abstract class ProductRepository {
-  static String mainUrl = "http://10.0.2.2:8000";
-  var promotedProducts = '$mainUrl/products/promoted';
+  static String mainUrl = "http://10.0.2.2:8080";
+  var promotedProducts = '$mainUrl/api/v1/products';
 
   final FlutterSecureStorage storage = const FlutterSecureStorage();
   // final Dio _dio = Dio();

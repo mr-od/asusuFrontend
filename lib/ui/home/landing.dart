@@ -35,9 +35,9 @@ class _LandingPageState extends State<LandingPage> {
           backgroundColor: a4_style.smokyBlack,
           resizeToAvoidBottomInset: false,
           appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(5),
+            preferredSize: const Size.fromHeight(20),
             child: Container(
-              color: a4_style.navPane,
+              color: a4_style.eerieBlack,
             ),
           ),
           body: Center(
