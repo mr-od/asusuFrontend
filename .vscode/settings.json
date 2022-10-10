@@ -1,2 +1,19 @@
 {
+<<<<<<< HEAD
+=======
+    "workbench.colorCustomizations": {
+        "activityBar.foreground": "#FF97FB",
+        "activityBar.background": "#2C002B",
+        "activityBar.inactiveForeground": "#6B2094",
+        "activityBarBadge.foreground": "#28000A",
+        "activityBarBadge.background": "#FF7C9C",
+        "statusBar.foreground": "#9DFFBE",
+        "statusBar.background": "#128639",
+        "statusBarItem.hoverBackground": "#145C45",
+        "statusBarItem.remoteForeground": "#9DF7FF",
+        "statusBarItem.remoteBackground": "#15777F",
+        "statusBar.debuggingForeground": "#000000",
+        "statusBar.debuggingBackground": "#49BC70"
+    }
+>>>>>>> 4c93904daf19cc2e7a159160d7b996c0e67c3d2a
 }

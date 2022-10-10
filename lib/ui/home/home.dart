@@ -2,6 +2,7 @@ import 'package:asusu_igbo_f/shared/components/shared_components.dart';
 import 'package:asusu_igbo_f/shared/styles/shared_colors.dart';
 import 'package:asusu_igbo_f/ui/ui.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,12 +14,24 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    final List<String> imgList = [
+      'http://afia4.oss-cn-beijing.aliyuncs.com/sliders/1.jpg',
+      'http://afia4.oss-cn-beijing.aliyuncs.com/sliders/2.jpg',
+    ];
     return CustomScrollView(
       slivers: <Widget>[
         SliverToBoxAdapter(
           child: searchFormField(
               label: "Search", prefix: "assets/icons/A4logo.png"),
         ),
+        SliverToBoxAdapter(
+            child: CarouselSlider(
+          options: CarouselOptions(),
+          items: imgList
+              .map((item) => Center(
+                  child: Image.network(item, fit: BoxFit.cover, width: 1000)))
+              .toList(),
+        )),
         SliverGrid(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -27,16 +40,26 @@ class _HomeState extends State<Home> {
               crossAxisSpacing: 10.0),
           delegate: SliverChildBuilderDelegate(
             (context, index) {
-              return Container(
-                color: amaranth,
-                child: SelectCard(choice: choices[index]),
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const PromotedProducts();
+                  }));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    // color: amaranth,
+                    child: SelectCard(choice: choices[index]),
+                  ),
+                ),
               );
             },
             childCount: choices.length,
           ),
         ),
-        SliverPadding(
-          padding: const EdgeInsets.only(bottom: 80.0),
+        const SliverPadding(
+          padding: EdgeInsets.only(bottom: 80.0),
         )
       ],
     );
@@ -50,15 +73,52 @@ class Choice {
     // this.context,
   });
   final String title;
-  final IconData icon;
-  // final BuildContext? contextB;
+  final Widget icon;
 }
 
 List<Choice> choices = <Choice>[
   Choice(
-    title: 'Tinye Okwu',
-    icon: Icons.home,
-  ),
+      title: 'New Word',
+      icon: Image.asset(
+        "assets/icons/insert_w.png",
+        height: 50,
+        width: 50,
+      )),
+  Choice(
+      title: 'Verify Word',
+      icon: Image.asset(
+        "assets/icons/verify_w.png",
+        height: 50,
+        width: 50,
+      )),
+  Choice(
+      title: 'Market',
+      icon: Image.asset(
+        "assets/icons/afia.png",
+        height: 50,
+        width: 50,
+      )),
+  Choice(
+      title: 'Festival',
+      icon: Image.asset(
+        "assets/icons/fireworks.png",
+        height: 50,
+        width: 50,
+      )),
+  Choice(
+      title: 'History',
+      icon: Image.asset(
+        "assets/icons/history.png",
+        height: 50,
+        width: 50,
+      )),
+  Choice(
+      title: 'Food',
+      icon: Image.asset(
+        "assets/icons/nri.png",
+        height: 50,
+        width: 50,
+      )),
 ];
 
 class SelectCard extends StatelessWidget {
@@ -67,21 +127,23 @@ class SelectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: choice.goWhere,
-      child: Card(
-          color: pureBlack,
+    return Card(
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(color: lavenderBlush, width: 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        color: pureBlack,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
           child: Center(
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Expanded(
-                      child:
-                          Icon(choice.icon, size: 50.0, color: lavenderBlush)),
+                  Expanded(child: choice.icon),
                   Text(choice.title,
                       style: const TextStyle(color: lavenderBlush)),
                 ]),
-          )),
-    );
+          ),
+        ));
   }
 }
