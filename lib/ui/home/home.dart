@@ -67,7 +67,11 @@ class _HomeState extends State<Home> {
 }
 
 class Choice {
-  const Choice({required this.title, required this.icon});
+  const Choice({
+    required this.title,
+    required this.icon,
+    // this.context,
+  });
   final String title;
   final Widget icon;
 }

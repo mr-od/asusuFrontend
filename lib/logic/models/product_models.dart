@@ -76,28 +76,31 @@ String productsToJson(List<ProductModel> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class ProductModel {
+  var price;
   ProductModel(
       {this.name,
       this.isActive,
       this.imgsUrl,
       this.id,
       this.description,
-      this.ownerId,
+      this.owner,
       this.memorySize,
       this.screenSize,
       this.condition,
       this.brand,
-      this.price});
+      this.price,
+      this.sPrice});
 
   String? name;
   String? description;
   String? condition;
-  double? price;
+  String? sPrice;
+  // double? price;
 
   bool? isActive;
 
   int? id;
-  int? ownerId;
+  String? owner;
   String? brand;
   String? screenSize;
   String? memorySize;
@@ -105,12 +108,12 @@ class ProductModel {
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
       name: json["name"],
-      price: json["price"],
+      price: double.parse(json["price"]),
       isActive: json["is_active"],
       imgsUrl: List<String>.from(json["imgs_url"].map((x) => x)),
       id: json["id"],
       description: json["description"],
-      ownerId: json["owner_id"],
+      owner: json["owner"],
       screenSize: json["screen_size"],
       brand: json["brand"],
       memorySize: json["memory_size"],
@@ -123,7 +126,8 @@ class ProductModel {
         "id": id,
         "description": description,
         "brand": brand,
-        "owner_id": ownerId,
+        "owner": owner,
+        "price": price,
         "memory_size": memorySize,
         "screen_size": screenSize,
         "condition": condition,
