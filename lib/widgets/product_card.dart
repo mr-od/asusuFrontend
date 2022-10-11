@@ -52,7 +52,7 @@ class ProductCard extends StatelessWidget {
             product: product,
           );
         }));
-        debugPrint('${product.brand},' '${product.id}');
+        // debugPrint('${product.brand},' '${product.id}');
       },
       child: isCart || isSummary
           ? Padding(

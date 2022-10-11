@@ -42,9 +42,10 @@ class _HomeState extends State<Home> {
             (context, index) {
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const PromotedProducts();
-                  }));
+                  Navigator.of(context).pushNamed("/promoted");
+                  // Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  //   return const PromotedProducts();
+                  // }));
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),

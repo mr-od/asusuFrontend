@@ -52,21 +52,18 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  static const List<Widget> _pages = <Widget>[
-    Home(),
-    Icon(
+  static final List<Widget> _pages = <Widget>[
+    const Home(),
+    CartScreen(),
+    const Icon(
       Icons.camera,
       size: 150,
     ),
-    Icon(
+    const Icon(
       Icons.chat,
       size: 150,
     ),
-    Icon(
-      Icons.chat,
-      size: 150,
-    ),
-    ProfileScreen()
+    const ProfileScreen()
   ];
 
   static List<Widget> icons = <Widget>[

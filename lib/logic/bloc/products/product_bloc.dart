@@ -12,9 +12,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
   ProductBloc({required this.productRepo}) : super(ProductInitialState()) {
     on<LoadProductEvent>((event, emit) async {
+      emit(ProductLoadingState());
       try {
-        emit(ProductLoadingState());
-        await Future.delayed(const Duration(milliseconds: 500));
+        await Future.delayed(const Duration(milliseconds: 0));
         emit(ProductLoadedState(event.loadProductModel));
       } catch (e) {
         emit(ProductErrorState(event.loadProductModel));
@@ -22,14 +22,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     });
 
     on<FetchPromotedProductsEvent>((event, emit) async {
+      emit(PromotedProductLoadingState());
       try {
-        emit(PromotedProductLoadingState());
-
         final currentVendor = await productRepo.fetchPromotedProducts();
 
         emit(PromotedProductLoadedState(productModel: currentVendor));
 
-        debugPrint('Vendor Product Loaded : $PromotedProductLoadingState()');
+        debugPrint('App Product Loaded State : $PromotedProductLoadingState()');
       } catch (error) {
         emit(PromotedProductErrorState(error: error.toString()));
       }

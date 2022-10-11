@@ -47,6 +47,15 @@ void goPop(context) => Navigator.pop(
       context,
     );
 
+Widget productBadge({required String badgeLabel}) => Container(
+      padding: const EdgeInsets.all(8),
+      color: my_style.eerieBlack,
+      child: Text(
+        badgeLabel,
+        style: const TextStyle(color: my_style.lavenderBlush),
+      ),
+    );
+
 Widget defaultButton(
         {required Color buttonColor,
         double width = double.infinity,

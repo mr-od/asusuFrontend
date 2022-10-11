@@ -1,4 +1,7 @@
 import 'package:asusu_igbo_f/shared/shared.dart';
+import 'package:asusu_igbo_f/ui/home/home.dart';
+import 'package:asusu_igbo_f/ui/router.dart';
+import 'package:asusu_igbo_f/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,8 +32,9 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final AuthenticationBloc authbloc;
+  final AppRouter _appRouter = AppRouter();
 
-  const MyApp({
+  MyApp({
     Key? key,
     required this.authbloc,
   }) : super(key: key);
@@ -38,87 +42,33 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-        providers: [
-          BlocProvider<AuthenticationBloc>(
-              create: (BuildContext context) =>
-                  AuthenticationBloc(userRepo: UserRepoImpl())
-                    ..add(AppStarted())),
-          BlocProvider<LoginBloc>(
-              create: (BuildContext context) =>
-                  LoginBloc(userRepo: UserRepoImpl(), authbloc: authbloc)),
-          BlocProvider<UserBloc>(
+      providers: [
+        BlocProvider<AuthenticationBloc>(
             create: (BuildContext context) =>
-                UserBloc(userRepo: UserRepoImpl()),
-          ),
-          BlocProvider<ProductBloc>(
+                AuthenticationBloc(userRepo: UserRepoImpl())
+                  ..add(AppStarted())),
+        BlocProvider<LoginBloc>(
             create: (BuildContext context) =>
-                ProductBloc(productRepo: ProductRepoImpls()),
-          ),
-          BlocProvider<CartBloc>(
-            create: (BuildContext context) => CartBloc()..add(LoadCart()),
-          ),
-        ],
-        child: MaterialApp(
+                LoginBloc(userRepo: UserRepoImpl(), authbloc: authbloc)),
+        BlocProvider<UserBloc>(
+          create: (BuildContext context) => UserBloc(userRepo: UserRepoImpl()),
+        ),
+        BlocProvider<ProductBloc>(
+          create: (BuildContext context) =>
+              ProductBloc(productRepo: ProductRepoImpls()),
+        ),
+        BlocProvider<CartBloc>(
+          create: (BuildContext context) => CartBloc()..add(LoadCart()),
+        ),
+      ],
+      child: MaterialApp(
           debugShowCheckedModeBanner: false,
           locale: const Locale('en', 'EN'),
           theme: ThemeData(
             fontFamily: 'FiraCode',
             primarySwatch: mcLavenderBlush,
           ),
-          home: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-            builder: (context, state) {
-              if (state is AuthenticationAuthenticated) {
-                return const LandingPage();
-              }
-              if (state is AuthenticationUnauthenitcated) {
-                return const IntroScreen();
-              }
-              if (state is AuthenticationLoading) {
-                return Scaffold(
-                  body: Container(
-                    color: Colors.white,
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 25.0,
-                          width: 25.0,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                a4_style.defaultColor),
-                            strokeWidth: 4.0,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              }
-              return Scaffold(
-                body: Container(
-                  color: Colors.white,
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(
-                        height: 25.0,
-                        width: 25.0,
-                        child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                              a4_style.defaultColor),
-                          strokeWidth: 4.0,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        ));
+          onGenerateRoute: _appRouter.onGenerateRoute),
+    );
   }
 }

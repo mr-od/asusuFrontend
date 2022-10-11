@@ -7,3 +7,6 @@ export 'product/promoted_product.dart';
 export 'profile/user_profile.dart';
 export 'register/register.dart';
 export 'register/register_form.dart';
+export 'intro/intro_screen.dart';
+export 'home/home.dart';
+export 'home/landing.dart';

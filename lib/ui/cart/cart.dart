@@ -1,15 +1,14 @@
+import 'package:asusu_igbo_f/logic/logic.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../logic/bloc/cart/cart_bloc.dart';
-import '../../shared/components/shared_components.dart';
 import '../../shared/styles/shared_colors.dart' as a4_style;
 import '../../widgets/order_summary.dart';
 import '../../widgets/product_card.dart';
-import '../checkout/checkout.dart';
-import '../home/landing.dart';
 
 class CartScreen extends StatelessWidget {
+  const CartScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,11 +47,19 @@ class CartScreen extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          goTo(context, const LandingPage());
-                          // Navigator.pop(context);
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(
+                          //       builder: (_) => BlocProvider.value(
+                          //             value:
+                          //                 BlocProvider.of<ProductBloc>(context),
+                          //             child: const PromotedProducts(),
+                          //           )),
+                          // );
+                          // Navigator.of(context).pushNamed("/promoted");
+                          Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: a4_style.buttonBG,
+                          primary: a4_style.pureBlack,
                           shape: const RoundedRectangleBorder(),
                           elevation: 0,
                         ),
@@ -107,7 +114,8 @@ class GoToCheckoutNavBar extends StatelessWidget {
         Expanded(
           child: ElevatedButton(
             onPressed: () {
-              goTo(context, CheckoutScreen());
+              Navigator.of(context).pushNamed("/checkout");
+              // goTo(context, const CheckoutScreen());
             },
             style: ElevatedButton.styleFrom(
               primary: a4_style.buttonBG,
