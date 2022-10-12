@@ -12,9 +12,9 @@ class AuthenticationBloc
   AuthenticationBloc({required this.userRepo})
       : super(AuthenticationUninitialized()) {
     on<AuthenticationEvent>((event, emit) async {
+      // emit(AuthenticationVirginState());
+      // await Future<void>.delayed(const Duration(seconds: 5));
       if (event is AppStarted) {
-        emit(AuthenticationVirginState());
-        await Future<void>.delayed(const Duration(seconds: 60));
         final bool readToken = await userRepo!.readToken();
         if (readToken) {
           emit(AuthenticationAuthenticated());
@@ -30,7 +30,7 @@ class AuthenticationBloc
       if (event is LoggedOut) {
         emit(AuthenticationLoading());
         await userRepo!.deleteToken();
-        // await Future<void>.delayed(const Duration(seconds: 15));
+        await Future<void>.delayed(const Duration(seconds: 10));
 
         emit(AuthenticationUnauthenitcated());
       }

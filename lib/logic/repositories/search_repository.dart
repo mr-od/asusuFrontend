@@ -6,29 +6,24 @@ import 'package:http/http.dart' as http;
 import '../../shared/services/secure_storage.dart';
 import '../logic.dart';
 
-abstract class SearchRepository {
-  static String mainUrl = "http://afia4.herokuapp.com";
-  var searchVendorProducts = '$mainUrl/vendors/products/';
-  String? vendorToken;
+class SearchRepository {
+  static String mainUrl = "http://10.0.2.2:8080"; // Android Studio
+  // static String mainUrl = "http://localhost:8080"; // iOS
+  var searchUrl = '$mainUrl/api/v1/search';
+  String? userToken;
   var qdata = [];
   List<ProductModel> qresults = [];
-  Future<List<ProductModel>> searchProducts(String query);
-  Future<List<ProductModel>> searchVProducts(String query);
-}
 
-class SearchRepoImpl extends SearchRepository {
-  @override
   Future<List<ProductModel>> searchProducts(String query) async {
-    var searchVProducts =
-        Uri.parse('http://10.0.2.2:8000/search/?keyword=$query');
+    var searchVProducts = Uri.parse('$searchUrl/$query');
 
     await SecureStorage.readSecureData("token")
-        .then((value) => vendorToken = value);
-    debugPrint('Get Vendor Products with token: $vendorToken');
+        .then((value) => userToken = value);
+    debugPrint('Search Products with token: $userToken');
     var response = await http.get(searchVProducts, headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'Authorization': 'Bearer $vendorToken',
+      'Authorization': 'Bearer $userToken',
     });
     if (response.statusCode != 200) {
       throw Exception('Request Failed; ${response.statusCode}');
@@ -45,17 +40,16 @@ class SearchRepoImpl extends SearchRepository {
     }
   }
 
-  @override
   Future<List<ProductModel>> searchVProducts(String query) async {
-    var url = Uri.parse(searchVendorProducts);
+    var url = Uri.parse(searchUrl);
     await SecureStorage.readSecureData("token")
-        .then((value) => vendorToken = value);
-    debugPrint('Get Vendor Products with token: $vendorToken');
+        .then((value) => userToken = value);
+    debugPrint('Get Vendor Products with token: $userToken');
     try {
       var response = await http.get(url, headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': 'Bearer $vendorToken',
+        'Authorization': 'Bearer $userToken',
       });
       if (response.statusCode == 200) {
         qdata = json.decode(response.body);
@@ -74,6 +68,68 @@ class SearchRepoImpl extends SearchRepository {
     }
     return qresults;
   }
+
+  // Future<List<ProductModel>> searchProducts(String query);
+  // Future<List<ProductModel>> searchVProducts(String query);
+}
+
+class SearchRepoImpl extends SearchRepository {
+  // @override
+  // Future<List<ProductModel>> searchProducts(String query) async {
+  //   var searchVProducts = Uri.parse('$searchUrl/$query');
+
+  //   await SecureStorage.readSecureData("token")
+  //       .then((value) => userToken = value);
+  //   debugPrint('Search Products with token: $userToken');
+  //   var response = await http.get(searchVProducts, headers: {
+  //     'Content-Type': 'application/json',
+  //     'Accept': 'application/json',
+  //     'Authorization': 'Bearer $userToken',
+  //   });
+  //   if (response.statusCode != 200) {
+  //     throw Exception('Request Failed; ${response.statusCode}');
+  //   }
+  //   try {
+  //     var data = json.decode(response.body);
+  //     debugPrint('Search data: $data');
+
+  //     qresults = (data as List).map((x) => ProductModel.fromJson(x)).toList();
+  //     debugPrint('Search qresults: $qresults');
+  //     return qresults;
+  //   } catch (_) {
+  //     throw Exception('Error Parsing Response Body');
+  //   }
+  // }
+
+  // @override
+  // Future<List<ProductModel>> searchVProducts(String query) async {
+  //   var url = Uri.parse(searchUrl);
+  //   await SecureStorage.readSecureData("token")
+  //       .then((value) => userToken = value);
+  //   debugPrint('Get Vendor Products with token: $userToken');
+  //   try {
+  //     var response = await http.get(url, headers: {
+  //       'Content-Type': 'application/json',
+  //       'Accept': 'application/json',
+  //       'Authorization': 'Bearer $userToken',
+  //     });
+  //     if (response.statusCode == 200) {
+  //       qdata = json.decode(response.body);
+  //       qresults = qdata.map((e) => ProductModel.fromJson(e)).toList();
+  //       if (query != null) {
+  //         qresults = qresults
+  //             .where((element) =>
+  //                 element.name!.toLowerCase().contains((query.toLowerCase())))
+  //             .toList();
+  //       }
+  //     } else {
+  //       debugPrint("fetch error");
+  //     }
+  //   } on Exception catch (e) {
+  //     debugPrint('error: $e');
+  //   }
+  //   return qresults;
+  // }
 
   // Future<List<ProductModel>> searchProduct() async {
   //   await SecureStorage.readSecureData("token")

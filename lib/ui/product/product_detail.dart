@@ -7,24 +7,31 @@ import '../../shared/styles/shared_colors.dart' as a4_style;
 import '../ui.dart';
 
 class ProductDetailScreen extends StatefulWidget {
-  final ProductModel product;
-
-  const ProductDetailScreen({
-    Key? key,
-    required this.product,
-  }) : super(key: key);
+  const ProductDetailScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProductDetailScreen> createState() =>
-      _ProductDetailScreenState(product);
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
 }
 
-class _ProductDetailScreenState extends State<ProductDetailScreen>
-    with TickerProviderStateMixin {
-  final ProductModel productM;
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
+  late ProductBloc bloc;
+  late CartBloc cBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    bloc = BlocProvider.of<ProductBloc>(context);
+    cBloc = BlocProvider.of<CartBloc>(context);
+  }
+
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   bloc.close();
+  //   cBloc.close();
+  // }
 
   bool _addedToCart = false;
-  _ProductDetailScreenState(this.productM);
 
   @override
   Widget build(BuildContext context) {
@@ -32,34 +39,54 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
       color: Colors.white,
       child: SafeArea(
         child: Scaffold(
-          backgroundColor: a4_style.eerieBlack,
-          appBar: PreferredSize(
-              preferredSize: Size.fromHeight(myAppBarHeight),
-              child: AppBar(
-                backgroundColor: a4_style.eerieBlack,
-              )),
-          body: SingleChildScrollView(
-            child: BlocBuilder<ProductBloc, ProductState>(
-                builder: (BuildContext context, ProductState state) {
-              if (state is ProductLoadingState) {
-                return _loading();
-              } else if (state is ProductErrorState) {
-                return _loadingErrorWidget(context, state.productBlocModel);
-              } else if (state is ProductLoadedState) {
-                return _productDetail(state.productBlocModel);
+            backgroundColor: a4_style.eerieBlack,
+            appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(50),
+                child: SafeArea(
+                  child: AppBar(
+                    flexibleSpace: searchFormField(
+                      label: "Search",
+                      prefix: "assets/icons/A4logo.png",
+                      onTap: () {
+                        showSearch(
+                            context: context,
+                            delegate: SearchProducts(
+                                hintText: 'Search Products',
+                                sBloc: BlocProvider.of<SearchBloc>(context)));
+                      },
+                    ),
+                    backgroundColor: a4_style.eerieBlack,
+                  ),
+                )),
+            body: SingleChildScrollView(
+              child: BlocBuilder<ProductBloc, ProductState>(
+                  builder: (BuildContext context, ProductState state) {
+                if (state is ProductLoadingState) {
+                  return _loading();
+                } else if (state is ProductErrorState) {
+                  return _loadingErrorWidget(context, state.productBlocModel);
+                } else if (state is ProductLoadedState) {
+                  return _productDetail(state.productBlocModel);
+                } else {
+                  return Center(child: Text('The state is : $state'));
+                }
+              }),
+            ),
+            bottomNavigationBar: BlocBuilder<ProductBloc, ProductState>(
+                builder: (context, state) {
+              if (state is ProductLoadedState) {
+                debugPrint('Product Ready to add to cart : $state');
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    buyNowButton(),
+                    add2CartButton(state.productBlocModel),
+                  ],
+                );
               } else {
-                return Center(child: Text('The state is : $state'));
+                return Container();
               }
-            }),
-          ),
-          bottomNavigationBar: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              buyNowButton(),
-              add2CartButton(),
-            ],
-          ),
-        ),
+            })),
       ),
     );
   }
@@ -77,7 +104,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
     ));
   }
 
-  Expanded add2CartButton() {
+  Expanded add2CartButton(ProductModel productM) {
     return Expanded(
       child: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
@@ -88,14 +115,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
             return ElevatedButton(
               onPressed: () {
                 if (_addedToCart == false) {
-                  // BlocProvider.of<CartBloc>(context)
-                  //     .add(AddProduct(product));
                   context.read<CartBloc>().add(AddProduct(productM));
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (_) => BlocProvider.value(
-                            value: BlocProvider.of<CartBloc>(context),
-                            child: CartScreen(),
-                          )));
+
+                  Navigator.of(context).pushNamed('/cart');
                   setState(() {
                     _addedToCart = true;
                   });
@@ -103,8 +125,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
                 if (_addedToCart == true) {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (_) => BlocProvider.value(
-                            value: BlocProvider.of<CartBloc>(context),
-                            child: CartScreen(),
+                            value: cBloc,
+                            child: const CartScreen(),
                           )));
                 }
               },
@@ -142,9 +164,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
               productBlocModel != null
                   ? ElevatedButton(
                       onPressed: () {
-                        final productBloc =
-                            BlocProvider.of<ProductBloc>(context);
-                        productBloc.add(LoadProductEvent(productBlocModel));
+                        bloc.add(LoadProductEvent(productBlocModel));
                       },
                       child: const Text('Error Try Again'))
                   : const Text('data')
@@ -166,7 +186,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen>
     );
     return Column(
       children: [
-        searchFormField(label: "Search", prefix: "assets/icons/A4logo.png"),
         Stack(
           alignment: AlignmentDirectional.bottomStart,
           children: [

@@ -47,15 +47,6 @@ class CartScreen extends StatelessWidget {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          // Navigator.of(context).push(
-                          //   MaterialPageRoute(
-                          //       builder: (_) => BlocProvider.value(
-                          //             value:
-                          //                 BlocProvider.of<ProductBloc>(context),
-                          //             child: const PromotedProducts(),
-                          //           )),
-                          // );
-                          // Navigator.of(context).pushNamed("/promoted");
                           Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(

@@ -15,6 +15,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       try {
         emit(UserLoadingState());
         final currentUser = await userRepo.getCurrentUser();
+        await Future<void>.delayed(const Duration(seconds: 10));
+
         emit(UserLoadedState(userModel: currentUser));
         debugPrint('User Loaded : $UserLoadedState()');
       } catch (error) {

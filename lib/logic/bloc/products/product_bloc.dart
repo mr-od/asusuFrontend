@@ -27,8 +27,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         final currentVendor = await productRepo.fetchPromotedProducts();
 
         emit(PromotedProductLoadedState(productModel: currentVendor));
-
-        debugPrint('App Product Loaded State : $PromotedProductLoadingState()');
       } catch (error) {
         emit(PromotedProductErrorState(error: error.toString()));
       }

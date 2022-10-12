@@ -10,3 +10,5 @@ export 'register/register_form.dart';
 export 'intro/intro_screen.dart';
 export 'home/home.dart';
 export 'home/landing.dart';
+export 'router/router.dart';
+export 'search/search_screen.dart';

@@ -162,7 +162,7 @@ Widget searchFormField({
   // required TextInputType keyboardType,
   ValueChanged<String>? onSubmit,
   ValueChanged<String>? onChange,
-  VoidCallback? onTap,
+  required VoidCallback? onTap,
   bool isPassword = false,
   FormFieldValidator<String>? validate,
   required String label,
@@ -189,44 +189,46 @@ Widget searchFormField({
         onChanged: onChange,
         onTap: onTap,
         validator: validate,
-        decoration: InputDecoration(
-          labelText: label,
-          fillColor: my_style.pureBlack,
-          filled: true,
-          prefixIcon: SizedBox(
-            height: 35,
-            width: 35,
-            child: Padding(
-                padding: const EdgeInsets.all(5.0), child: Image.asset(prefix)),
-          ),
-          suffixIcon: SizedBox(
-              height: 50,
-              width: 50,
-              child: Container(
-                // decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(10),
-                //     color: my_style.lavenderBlush),
-                height: 50,
-                width: 50,
-                child: const Icon(
-                  Icons.search,
-                  color: my_style.amaranth,
-                ),
-              )),
-          enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: my_style.amaranth),
-              borderRadius: BorderRadius.circular(15.0)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: my_style.lavenderBlush),
-              borderRadius: BorderRadius.circular(15.0)),
-          contentPadding: const EdgeInsets.only(left: 10.0, right: 10.0),
-          labelStyle: const TextStyle(
-              fontSize: 12.0,
-              color: my_style.lavenderBlush,
-              fontWeight: FontWeight.w500),
-        ),
+        decoration: a4InputStyle(label, prefix),
       ),
     );
+
+InputDecoration a4InputStyle(String label, String prefix) {
+  return InputDecoration(
+    labelText: label,
+    fillColor: my_style.pureBlack,
+    filled: true,
+    prefixIcon: SizedBox(
+      height: 35,
+      width: 35,
+      child: Padding(
+          padding: const EdgeInsets.all(5.0), child: Image.asset(prefix)),
+    ),
+    suffixIcon: SizedBox(
+        height: 50,
+        width: 50,
+        child: Container(
+          // decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(10),
+          //     color: my_style.lavenderBlush),
+          height: 50,
+          width: 50,
+          child: const Icon(
+            Icons.search,
+            color: my_style.amaranth,
+          ),
+        )),
+    enabledBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: my_style.amaranth),
+        borderRadius: BorderRadius.circular(15.0)),
+    focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: my_style.lavenderBlush),
+        borderRadius: BorderRadius.circular(15.0)),
+    contentPadding: const EdgeInsets.only(left: 10.0, right: 10.0),
+    labelStyle: const TextStyle(
+        fontSize: 12.0, color: my_style.amaranth, fontWeight: FontWeight.w500),
+  );
+}
 
 Widget defaultTextField({
   // required TextEditingController controller,
@@ -509,11 +511,11 @@ Widget iconBox({
   );
 }
 
-Widget vendorHomeTab({
+Widget userHomeTab({
   required String tabIcon,
   String? tabText,
   required Function tabfunction,
-  required TextStyle style,
+  // required TextStyle style,
 }) {
   return Expanded(
     child: InkWell(
@@ -543,11 +545,10 @@ Widget vendorHomeTab({
             Expanded(
                 child: Text(
               '$tabText',
-              style: style,
-              // TextStyle(
-              //     fontWeight: FontWeight.bold,
-              //     fontSize: 20,
-              //     color: Colors.white),
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.white),
             )),
             Image.asset(
               tabIcon,

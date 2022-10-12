@@ -5,12 +5,13 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import '../../logic/logic.dart';
 import '../../shared/shared.dart';
 import '../../shared/styles/shared_colors.dart' as a4_style;
+import '../search/search_screen.dart';
 import '../ui.dart';
 
 class PromotedProducts extends StatefulWidget {
   // final VendorRepositories vendorRepo;
 
-  const PromotedProducts({
+  PromotedProducts({
     Key? key,
     // required this.vendorRepo
   }) : super(key: key);
@@ -56,17 +57,24 @@ class _PromotedProductsState extends State<PromotedProducts> {
         resizeToAvoidBottomInset: false,
         backgroundColor: eerieBlack,
         appBar: PreferredSize(
-            preferredSize: Size.fromHeight(myAppBarHeight),
-            child: AppBar(
-              backgroundColor: a4_style.pureBlack,
+            preferredSize: const Size.fromHeight(50),
+            child: SafeArea(
+              child: AppBar(
+                flexibleSpace: searchFormField(
+                    onTap: () {
+                      showSearch(
+                          context: context,
+                          delegate: SearchProducts(
+                              hintText: 'Search Products',
+                              sBloc: BlocProvider.of<SearchBloc>(context)));
+                    },
+                    label: "Search",
+                    prefix: "assets/icons/A4logo.png"),
+                backgroundColor: a4_style.pureBlack,
+              ),
             )),
         body: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: searchFormField(
-                  label: "Search", prefix: "assets/icons/A4logo.png"),
-            ),
             BlocBuilder<ProductBloc, ProductState>(
               builder: (BuildContext context, ProductState state) {
                 if (state is PromotedProductLoadingState) {
@@ -86,10 +94,6 @@ class _PromotedProductsState extends State<PromotedProducts> {
             ),
           ],
         ),
-        // bottomNavigationBar: CustomBottomNavigationBar(
-        //   iconList: icons,
-        //   onChange: _onItemTapped,
-        // ),
       ),
     );
   }
@@ -124,64 +128,43 @@ class _PromotedProductsState extends State<PromotedProducts> {
 
   Widget _vendorProducts(List<ProductModel> productModel) {
     return Expanded(
-      child: StaggeredGridView.countBuilder(
-        crossAxisCount: 2,
+      child: GridView.builder(
+        gridDelegate:
+            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        itemBuilder: (_, index) => productCard(productModel[index], _),
         itemCount: productModel.length,
-        itemBuilder: (BuildContext context, int i) {
-          return productCard(productModel[i], context);
-        },
-        staggeredTileBuilder: (int i) => const StaggeredTile.fit(1),
-        mainAxisSpacing: 10,
-        crossAxisSpacing: 10,
       ),
     );
   }
 
-  InkWell productCard(ProductModel product, BuildContext context) {
+  InkWell productCard(ProductModel product, BuildContext _) {
     return InkWell(
       onTap: () {
-        // One way to navigate
-        // BlocProvider.of<ProductBloc>(context).add(LoadProductEvent(product));
-        // goTo(context, const ProductDetailScreen());
+        // BlocProvider.of<ProductBloc>(_).add(LoadProductEvent(product));
+        context.read<ProductBloc>().add(LoadProductEvent(product));
 
-        // Another way to navigate
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (_) => BlocProvider.value(
-        //               value: BlocProvider.of<ProductBloc>(context)
-        //                 ..add(LoadProductEvent(product)),
-        //               child: ProductDetailScreen(
-        //                 product: product,
-        //               ),
-        //             )));
-
-        BlocProvider.of<ProductBloc>(context).add(LoadProductEvent(product));
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return ProductDetailScreen(
-            product: product,
-          );
-        }));
+        Navigator.of(_).pushNamed("/productDetail");
       },
       child: Card(
-        color: a4_style.smokyBlack,
+        elevation: 20,
+        color: smokyBlack,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(2.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Stack(children: [
-                Container(
-                    height: 180,
-                    width: double.infinity,
-                    clipBehavior: Clip.antiAlias,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(4)),
-                    child: Image.network(
-                      product.imgsUrl![0],
-                      fit: BoxFit.cover,
-                    ))
-              ]),
+              Flexible(
+                fit: FlexFit.tight,
+                child: Container(
+                  height: 200,
+                  width: double.infinity,
+                  child: Image.network(
+                    product.imgsUrl![0],
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
               const SizedBox(
                 height: 8,
               ),
@@ -195,16 +178,19 @@ class _PromotedProductsState extends State<PromotedProducts> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "\$${product.price.toString()}",
-                    style: Theme.of(context).textTheme.caption!.copyWith(
-                        color: a4_style.amaranth, fontWeight: FontWeight.bold),
+                  Flexible(
+                    child: Text(
+                      "\$${product.price.toString()}",
+                      style: Theme.of(_).textTheme.caption!.copyWith(
+                          color: amaranth, fontWeight: FontWeight.bold),
+                    ),
                   ),
-                  Text(
-                    "Sold: 10",
-                    style: Theme.of(context).textTheme.caption!.copyWith(
-                        color: a4_style.amaranth,
-                        fontWeight: FontWeight.normal),
+                  Flexible(
+                    child: Text(
+                      "Sold: 10",
+                      style: Theme.of(_).textTheme.caption!.copyWith(
+                          color: amaranth, fontWeight: FontWeight.normal),
+                    ),
                   ),
                 ],
               )
