@@ -77,11 +77,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                height: 100,
+                // height: 100,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     color: pureBlack, border: Border.all(color: amaranth)),
-                child: _userFunctionsPanel(),
+                child: _buildVendorProfile(),
               ),
             ),
             Padding(
@@ -146,12 +146,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         const SizedBox(
           width: 10,
         ),
-        Expanded(
-          child: Text(
-            "ShopperID : ${model.id.toString()}",
-            style: const TextStyle(fontSize: 10),
-          ),
-        )
+        // Expanded(
+        //   child: Text(
+        //     "ShopperID : ${model.id.toString()}",
+        //     style: const TextStyle(fontSize: 10),
+        //   ),
+        // )
       ],
     );
   }
@@ -168,11 +168,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 'User Details',
                 style: TextStyle(
                     fontSize: 12.0,
-                    color: a4_style.buttonBG,
+                    color: a4_style.amaranth,
                     fontWeight: FontWeight.w500),
               ),
-              defaultTextContainer(
-                  prefixtext: 'Vendor ID', text: model.id.toString()),
+              // defaultTextContainer(
+              //     prefixtext: 'Vendor ID', text: model.id.toString()),
               defaultTextContainer(
                   prefixtext: 'Username', text: model.username),
               defaultTextContainer(prefixtext: 'Email', text: model.email),

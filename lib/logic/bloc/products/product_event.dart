@@ -11,7 +11,12 @@ class LoadProductEvent extends ProductEvent {
   final ProductModel loadProductModel;
 
   const LoadProductEvent(this.loadProductModel);
+  @override
+  List<Object> get props => [loadProductModel];
 }
 
 ////////////// Fetch Promoted Products for the HomeScreen ////////////////
-class FetchPromotedProductsEvent extends ProductEvent {}
+class FetchPromotedProductsEvent extends ProductEvent {
+  @override
+  List<Object> get props => [];
+}

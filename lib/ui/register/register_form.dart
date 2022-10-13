@@ -164,8 +164,9 @@ class HaveAccount extends StatelessWidget {
             ),
             GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const LoginScreen()));
+                  Navigator.of(context).pushNamed("/login");
+                  // Navigator.of(context).push(
+                  //     MaterialPageRoute(builder: (_) => const LoginScreen()));
                 },
                 child: const Text(
                   "Login",

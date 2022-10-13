@@ -16,18 +16,25 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   int selectedIndex = 0;
+  late ProductBloc bloc;
+  late CartBloc cBloc;
 
   @override
   void initState() {
-    BlocProvider.of<ProductBloc>(context).add(FetchPromotedProductsEvent());
     super.initState();
+    bloc = BlocProvider.of<ProductBloc>(context);
+    cBloc = BlocProvider.of<CartBloc>(context);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    bloc.close();
+    cBloc.close();
   }
 
   @override
   Widget build(BuildContext context) {
-    // final customTextStyle = Theme.of(context).textTheme.titleSmall!.copyWith(
-    //     fontWeight: FontWeight.w300,
-    //     color: Theme.of(context).textTheme.titleSmall!.color!);
     return Container(
       color: a4_style.navPane,
       child: SafeArea(
@@ -52,21 +59,18 @@ class _LandingPageState extends State<LandingPage> {
     );
   }
 
-  static const List<Widget> _pages = <Widget>[
+  static final List<Widget> _pages = <Widget>[
     Home(),
-    Icon(
+    const CartScreen(),
+    const Icon(
       Icons.camera,
       size: 150,
     ),
-    Icon(
+    const Icon(
       Icons.chat,
       size: 150,
     ),
-    Icon(
-      Icons.chat,
-      size: 150,
-    ),
-    ProfileScreen()
+    const ProfileScreen()
   ];
 
   static List<Widget> icons = <Widget>[

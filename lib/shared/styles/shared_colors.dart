@@ -7,6 +7,7 @@ const eerieBlack = Color(0xFF1F1F1F);
 const amaranth = Color(0xFFE30846);
 const lavenderBlush = Color(0xFFFFF0F0);
 const actionSuccesful = Color(0xFFAFD132);
+const rctGrey = Color.fromARGB(255, 105, 103, 103);
 
 class CreateMaterialColor {
   MaterialColor customColor(Color color) {

@@ -5,8 +5,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../shared/services/secure_storage.dart';
 import '../logic.dart';
 
-abstract class ProductRepository {
-  static String mainUrl = "http://10.0.2.2:8000"; // Android Studio
+class ProductRepository {
+  static String mainUrl = "http://10.0.2.2:8080"; // Android Studio
   // static String mainUrl = "http://localhost:8080"; // iOS
   var promotedProducts = '$mainUrl/api/v1/products';
 
@@ -17,11 +17,6 @@ abstract class ProductRepository {
   String? vendorToken;
   String? finalToken;
 
-  Future<List<ProductModel>> fetchPromotedProducts();
-}
-
-class ProductRepoImpls extends ProductRepository {
-  @override
   Future<List<ProductModel>> fetchPromotedProducts() async {
     await SecureStorage.readSecureData("token")
         .then((value) => finalToken = value);
@@ -55,4 +50,43 @@ class ProductRepoImpls extends ProductRepository {
       throw Exception("Failed to load currently Logged in Vendor Products");
     }
   }
+
+  // Future<List<ProductModel>> fetchPromotedProducts();
 }
+
+// class ProductRepoImpls extends ProductRepository {
+//   @override
+//   Future<List<ProductModel>> fetchPromotedProducts() async {
+//     await SecureStorage.readSecureData("token")
+//         .then((value) => finalToken = value);
+//     debugPrint('Get Vendor Products with token: $finalToken');
+
+//     try {
+//       final response = await Dio().get(
+//         promotedProducts,
+//         options: Options(
+//             headers: {
+//               'Content-Type':
+//                   'application/x-www-form-urlencoded;charset=UTF-8;application/json;multipart/form-data',
+//               'Accept': 'application/json',
+//               "Authorization": "Bearer $finalToken",
+//             },
+//             followRedirects: false,
+//             validateStatus: (status) {
+//               return status! < 500;
+//             }),
+//       );
+//       // debugPrint('Promoted Products Repository Says ${response.toString()}');
+//       debugPrint('Promoted Products Repository Says $response');
+//       final og =
+//           (response.data as List).map((x) => ProductModel.fromJson(x)).toList();
+
+//       debugPrint('Og $og');
+
+//       return og;
+//     } on DioError catch (e) {
+//       debugPrint("Status code: ${e.response?.statusCode.toString()}");
+//       throw Exception("Failed to load currently Logged in Vendor Products");
+//     }
+//   }
+// }

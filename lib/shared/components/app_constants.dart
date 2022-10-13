@@ -1,1 +1,1 @@
-double myAppBarHeight = 15;
+double myAppBarHeight = 25;

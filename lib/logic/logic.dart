@@ -5,6 +5,7 @@ export 'bloc/products/product_bloc.dart';
 export 'bloc/register/cubit/user_register_cubit.dart';
 export 'bloc/user/bloc/user_bloc.dart';
 export 'bloc/cart/cart_bloc.dart';
+export 'bloc/search/search_bloc.dart';
 // export 'bloc/checkout/checkout_bloc.dart';
 
 // Models Export

@@ -7,10 +7,27 @@ abstract class AuthenticationState extends Equatable {
   List<Object> get props => [];
 }
 
-class AuthenticationUninitialized extends AuthenticationState {}
+class AuthenticationVirginState extends AuthenticationState {
+  @override
+  List<Object> get props => [];
+}
 
-class AuthenticationAuthenticated extends AuthenticationState {}
+class AuthenticationUninitialized extends AuthenticationState {
+  @override
+  List<Object> get props => [];
+}
 
-class AuthenticationUnauthenitcated extends AuthenticationState {}
+class AuthenticationAuthenticated extends AuthenticationState {
+  @override
+  List<Object> get props => [];
+}
 
-class AuthenticationLoading extends AuthenticationState {}
+class AuthenticationUnauthenitcated extends AuthenticationState {
+  @override
+  List<Object> get props => [];
+}
+
+class AuthenticationLoading extends AuthenticationState {
+  @override
+  List<Object> get props => [];
+}

@@ -49,10 +49,10 @@ class ProductCard extends StatelessWidget {
         BlocProvider.of<ProductBloc>(context).add(LoadProductEvent(product));
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return ProductDetailScreen(
-            product: product,
-          );
+              // product: product,
+              );
         }));
-        debugPrint('${product.brand},' '${product.id}');
+        // debugPrint('${product.brand},' '${product.id}');
       },
       child: isCart || isSummary
           ? Padding(

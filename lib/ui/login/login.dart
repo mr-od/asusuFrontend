@@ -120,7 +120,8 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                     backgroundColor: a4_style.actionSuccesful,
                   ));
-                  goTo(context, const LandingPage());
+                  // goTo(context, const LandingPage());
+                  Navigator.of(context).pushNamed("/landing");
                 }
               },
               builder: (context, state) {
@@ -207,8 +208,9 @@ class _LoginFormState extends State<LoginForm> {
                         ),
                         GestureDetector(
                             onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => RegisterScreen()));
+                              Navigator.of(context).pushNamed("/register");
+                              // Navigator.of(context).push(MaterialPageRoute(
+                              //     builder: (_) => RegisterScreen()));
                             },
                             child: const Text(
                               "Register",
