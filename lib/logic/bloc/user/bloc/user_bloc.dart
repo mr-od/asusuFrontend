@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
 import '../../../logic.dart';
 
@@ -18,7 +18,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         await Future<void>.delayed(const Duration(seconds: 10));
 
         emit(UserLoadedState(userModel: currentUser));
-        debugPrint('User Loaded : $UserLoadedState()');
+        // debugPrint('User Loaded : $UserLoadedState()');
       } catch (error) {
         emit(UserErrorState(error: error.toString()));
       }

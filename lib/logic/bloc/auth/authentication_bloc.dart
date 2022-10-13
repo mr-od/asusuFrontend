@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 import '../../logic.dart';
 
@@ -25,6 +26,10 @@ class AuthenticationBloc
       if (event is LoggedIn) {
         emit(AuthenticationLoading());
         await userRepo!.saveToken(event.token);
+        await userRepo!.saveUsername(event.username);
+
+        debugPrint('Save Token Event: ${event.token}');
+
         emit(AuthenticationAuthenticated());
       }
       if (event is LoggedOut) {

@@ -11,7 +11,7 @@ class UserRepository {
 
   var loginurl = '$mainUrl/api/v1/users/login';
   var registerUrl = '$mainUrl/api/v1/users/register';
-  var userDetails = '$mainUrl/users/me';
+  var userDetails = '$mainUrl/api/v1/users/me';
   final FlutterSecureStorage storage = const FlutterSecureStorage();
   final Dio _dio = Dio();
   final secureStorage = SecureStorage();
@@ -57,13 +57,14 @@ class UserRepository {
             return status! < 500;
           }),
     );
+
     return response.data["access_token"];
   }
 
   Future<SingleUserModel> getCurrentUser() async {
     await SecureStorage.readSecureData("token")
         .then((value) => finalToken = value);
-    debugPrint('Get Vendor with token: $finalToken');
+    debugPrint('User Repo --- Get User with token: $finalToken');
     try {
       final response = await _dio.get(
         userDetails,

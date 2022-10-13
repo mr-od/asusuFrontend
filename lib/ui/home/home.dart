@@ -26,11 +26,11 @@ class _HomeState extends State<Home> {
     super.initState();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    bloc.close();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   bloc.close();
+  // }
 
   @override
   Widget build(BuildContext context) {

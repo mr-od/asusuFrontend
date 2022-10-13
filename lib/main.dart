@@ -57,7 +57,8 @@ class MyApp extends StatelessWidget {
                   authbloc: context.read<AuthenticationBloc>())),
           BlocProvider<UserBloc>(
             create: (BuildContext context) =>
-                UserBloc(userRepo: context.read<UserRepository>()),
+                UserBloc(userRepo: context.read<UserRepository>())
+                  ..add(FetchUserDetailsEvent()),
           ),
           BlocProvider<ProductBloc>(
             create: (BuildContext context) =>

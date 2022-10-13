@@ -46,26 +46,26 @@ class UserModel {
 class SingleUserModel {
   final String username;
   final String email;
-  final int id;
+  // final int id;
 
   SingleUserModel({
     required this.username,
     required this.email,
-    required this.id,
+    // required this.id,
   });
 
   factory SingleUserModel.fromJson(Map<String, dynamic> json) {
     return SingleUserModel(
       username: json['username'],
       email: json['email'],
-      id: json['id'],
+      // id: json['id'],
     );
   }
 
   Map<String, dynamic> toJson() => {
         'username': username, //1
         'email': email, //5
-        'id': id, //5
+        // 'id': id, //5
       };
 
   static List<SingleUserModel> listFromJson(List<dynamic> list) =>
