@@ -16,15 +16,15 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   // List<ProductModel> productModel = List<ProductModel>;
-  late ProductBloc bloc;
+  // late ProductBloc bloc;
 
-  @override
-  void initState() {
-    super.initState();
-    bloc = BlocProvider.of<ProductBloc>(context);
-    bloc.add(FetchPromotedProductsEvent());
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   bloc = BlocProvider.of<ProductBloc>(context);
+  //   bloc.add(FetchPromotedProductsEvent());
+  //   super.initState();
+  // }
 
   // @override
   // void dispose() {
@@ -88,6 +88,9 @@ class _HomeState extends State<Home> {
       BlocBuilder<ProductBloc, ProductState>(
           bloc: BlocProvider.of<ProductBloc>(context),
           builder: (context, state) {
+            if (state is PromotedProductErrorState) {
+              return appLoadingState();
+            }
             if (state is PromotedProductLoadedState) {
               debugPrint('Product Loaded State : $state');
               // return _promotedProducts(state.productModel);
@@ -97,7 +100,7 @@ class _HomeState extends State<Home> {
                 );
               }
               return SliverGrid(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2),
                   delegate:
                       SliverChildBuilderDelegate((BuildContext _, int index) {
@@ -105,7 +108,9 @@ class _HomeState extends State<Home> {
 
                     return InkWell(
                       onTap: () {
-                        bloc.add(LoadProductEvent(state.productModel[index]));
+                        // bloc.add(LoadProductEvent(state.productModel[index]));
+                        BlocProvider.of<ProductBloc>(context)
+                            .add(LoadProductEvent(state.productModel[index]));
                         Navigator.of(context).pushNamed("/productDetail");
                       },
                       child: Card(
@@ -119,7 +124,7 @@ class _HomeState extends State<Home> {
                             children: [
                               Flexible(
                                 fit: FlexFit.tight,
-                                child: Container(
+                                child: SizedBox(
                                   height: 200,
                                   width: double.infinity,
                                   child: Image.network(
@@ -172,6 +177,9 @@ class _HomeState extends State<Home> {
                       ),
                     );
                   }, childCount: state.productModel.length));
+            } else if (state is PromotedProductErrorState) {
+              return const SliverToBoxAdapter(
+                  child: Text('There was an error loading your details.'));
             } else {
               return SliverToBoxAdapter(child: Container());
             }
@@ -179,77 +187,77 @@ class _HomeState extends State<Home> {
     ]);
   }
 
-  Widget _promotedProducts(List<ProductModel> productModel) {
-    return SliverGrid(
-        gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        delegate: SliverChildBuilderDelegate((BuildContext _, int index) {
-          return productCard(productModel[index], _);
-        }, childCount: productModel.length));
-  }
+//   Widget _promotedProducts(List<ProductModel> productModel) {
+//     return SliverGrid(
+//         gridDelegate:
+//             SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+//         delegate: SliverChildBuilderDelegate((BuildContext _, int index) {
+//           return productCard(productModel[index], _);
+//         }, childCount: productModel.length));
+//   }
 
-  InkWell productCard(ProductModel product, BuildContext _) {
-    return InkWell(
-      onTap: () {
-        bloc.add(LoadProductEvent(product));
-        context.read<CartBloc>().add(AddProduct(product));
-        Navigator.of(context).pushNamed("/productDetail");
-      },
-      child: Card(
-        elevation: 20,
-        color: smokyBlack,
-        child: Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Flexible(
-                fit: FlexFit.tight,
-                child: Container(
-                  height: 200,
-                  width: double.infinity,
-                  child: Image.network(
-                    product.imgsUrl![0],
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Text(
-                product.name!,
-                style: const TextStyle(color: lavenderBlush),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: Text(
-                      "\$${product.price.toString()}",
-                      style: Theme.of(_).textTheme.caption!.copyWith(
-                          color: amaranth, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  Flexible(
-                    child: Text(
-                      "Sold: 10",
-                      style: Theme.of(_).textTheme.caption!.copyWith(
-                          color: amaranth, fontWeight: FontWeight.normal),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+//   InkWell productCard(ProductModel product, BuildContext _) {
+//     return InkWell(
+//       onTap: () {
+//         bloc.add(LoadProductEvent(product));
+//         context.read<CartBloc>().add(AddProduct(product));
+//         Navigator.of(context).pushNamed("/productDetail");
+//       },
+//       child: Card(
+//         elevation: 20,
+//         color: smokyBlack,
+//         child: Padding(
+//           padding: const EdgeInsets.all(2.0),
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Flexible(
+//                 fit: FlexFit.tight,
+//                 child: Container(
+//                   height: 200,
+//                   width: double.infinity,
+//                   child: Image.network(
+//                     product.imgsUrl![0],
+//                     fit: BoxFit.cover,
+//                   ),
+//                 ),
+//               ),
+//               const SizedBox(
+//                 height: 8,
+//               ),
+//               Text(
+//                 product.name!,
+//                 style: const TextStyle(color: lavenderBlush),
+//               ),
+//               const SizedBox(
+//                 height: 8,
+//               ),
+//               Row(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 children: [
+//                   Flexible(
+//                     child: Text(
+//                       "\$${product.price.toString()}",
+//                       style: Theme.of(_).textTheme.caption!.copyWith(
+//                           color: amaranth, fontWeight: FontWeight.bold),
+//                     ),
+//                   ),
+//                   Flexible(
+//                     child: Text(
+//                       "Sold: 10",
+//                       style: Theme.of(_).textTheme.caption!.copyWith(
+//                           color: amaranth, fontWeight: FontWeight.normal),
+//                     ),
+//                   ),
+//                 ],
+//               )
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
 }
 
 class Choice {

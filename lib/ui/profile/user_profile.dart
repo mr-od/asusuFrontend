@@ -7,14 +7,9 @@ import '../../shared/shared.dart';
 import '../../shared/styles/shared_colors.dart' as a4_style;
 import '../login/login.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   builder: (context, state) {
                     if (state is UserLoadingState) {
                       debugPrint('App Bar LoadingState : $state');
-                      return _vendorLoading();
+                      return appLoadingState();
                     } else if (state is UserLoadedState) {
                       debugPrint('AppBarState : $state');
                       return _vendorAppBarDetails(context, state.userModel);
@@ -81,7 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                     color: pureBlack, border: Border.all(color: amaranth)),
-                child: _buildVendorProfile(),
+                child: _buildVendorProfile(context),
               ),
             ),
             Padding(
@@ -101,7 +96,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                     color: pureBlack, border: Border.all(color: amaranth)),
-                child: _userFunctionsPanel(),
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('/promoted');
+                  },
+                  child: const Text('Go to Products'),
+                ),
               ),
             ),
           ],
@@ -111,8 +111,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildVendorProfile() {
-    BlocProvider.of<UserBloc>(context).add(FetchUserDetailsEvent());
+  Widget _buildVendorProfile(BuildContext _) {
+    // BlocProvider.of<UserBloc>(_).add(FetchUserDetailsEvent());
 
     return Center(
       child: Padding(
@@ -121,7 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           builder: (context, state) {
             if (state is UserLoadingState) {
               debugPrint('LoadingState : $state');
-              return _vendorLoading();
+              return appLoadingState();
             } else if (state is UserLoadedState) {
               debugPrint('LoadedState : $state');
               return _vendorDetails(context, state.userModel);
@@ -182,8 +182,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-
-  Widget _vendorLoading() => const Center(child: CircularProgressIndicator());
 
   Widget _accountPanel() {
     return Padding(

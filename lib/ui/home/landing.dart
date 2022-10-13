@@ -1,5 +1,4 @@
 import 'package:asusu_igbo_f/shared/shared.dart';
-import 'package:asusu_igbo_f/ui/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,22 +15,22 @@ class LandingPage extends StatefulWidget {
 
 class _LandingPageState extends State<LandingPage> {
   int selectedIndex = 0;
-  late ProductBloc bloc;
-  late CartBloc cBloc;
+  // late ProductBloc bloc;
+  // late CartBloc cBloc;
 
-  @override
-  void initState() {
-    super.initState();
-    bloc = BlocProvider.of<ProductBloc>(context);
-    cBloc = BlocProvider.of<CartBloc>(context);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   bloc = BlocProvider.of<ProductBloc>(context);
+  //   cBloc = BlocProvider.of<CartBloc>(context);
+  // }
 
-  @override
-  void dispose() {
-    super.dispose();
-    bloc.close();
-    cBloc.close();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   bloc.close();
+  //   cBloc.close();
+  // }
 
   @override
   Widget build(BuildContext context) {

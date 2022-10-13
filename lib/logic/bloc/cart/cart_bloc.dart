@@ -26,6 +26,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     try {
       await Future<void>.delayed(const Duration(seconds: 0));
       emit(const CartLoaded());
+      debugPrint('Cart Loaded : $CartLoaded()');
     } catch (_) {
       emit(CartError());
     }

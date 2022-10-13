@@ -14,15 +14,15 @@ class ProductDetailScreen extends StatefulWidget {
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
-  late ProductBloc bloc;
-  late CartBloc cBloc;
+  // late ProductBloc bloc;
+  // late CartBloc cBloc;
 
-  @override
-  void initState() {
-    super.initState();
-    bloc = BlocProvider.of<ProductBloc>(context);
-    cBloc = BlocProvider.of<CartBloc>(context);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   bloc = BlocProvider.of<ProductBloc>(context);
+  //   cBloc = BlocProvider.of<CartBloc>(context);
+  // }
 
   // @override
   // void dispose() {
@@ -125,7 +125,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 if (_addedToCart == true) {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (_) => BlocProvider.value(
-                            value: cBloc,
+                            value: BlocProvider.of<CartBloc>(context),
                             child: const CartScreen(),
                           )));
                 }
@@ -164,7 +164,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               productBlocModel != null
                   ? ElevatedButton(
                       onPressed: () {
-                        bloc.add(LoadProductEvent(productBlocModel));
+                        BlocProvider.of<ProductBloc>(context)
+                            .add(LoadProductEvent(productBlocModel));
                       },
                       child: const Text('Error Try Again'))
                   : const Text('data')

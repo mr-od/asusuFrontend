@@ -565,3 +565,5 @@ Widget userHomeTab({
 String getOS() {
   return Platform.operatingSystem;
 }
+
+Widget appLoadingState() => const Center(child: CircularProgressIndicator());

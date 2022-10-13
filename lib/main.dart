@@ -57,13 +57,12 @@ class MyApp extends StatelessWidget {
                   authbloc: context.read<AuthenticationBloc>())),
           BlocProvider<UserBloc>(
             create: (BuildContext context) =>
-                UserBloc(userRepo: context.read<UserRepository>())
-                  ..add(FetchUserDetailsEvent()),
+                UserBloc()..add(FetchUserDetailsEvent()),
           ),
           BlocProvider<ProductBloc>(
             create: (BuildContext context) =>
                 ProductBloc(productRepo: context.read<ProductRepository>())
-                  ..add(LoadProductEvent(context.read<ProductModel>())),
+                  ..add(FetchPromotedProductsEvent()),
           ),
           BlocProvider<CartBloc>(
             create: (BuildContext context) => CartBloc()..add(LoadCart()),

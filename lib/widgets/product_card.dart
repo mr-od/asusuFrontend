@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../logic/logic.dart';
 import '../shared/styles/shared_colors.dart';
-import '../ui/product/product_detail.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard.cart({
@@ -47,12 +46,7 @@ class ProductCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         BlocProvider.of<ProductBloc>(context).add(LoadProductEvent(product));
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return ProductDetailScreen(
-              // product: product,
-              );
-        }));
-        // debugPrint('${product.brand},' '${product.id}');
+        Navigator.of(context).pushNamed('/productDetail');
       },
       child: isCart || isSummary
           ? Padding(
